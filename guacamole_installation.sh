@@ -2,7 +2,7 @@
 apt update
 
 #Install Guacamole on Debian 10
-apt install -y build-essential libcairo2-dev libturbojpeg libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev libpulse-dev
+apt install -y build-essential libcairo2-dev libturbojpeg0 libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev libpulse-dev
 
 #Install FreeRDP libraries enable support for RDP via Guacamole
 echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/backports.list
@@ -21,7 +21,7 @@ tar xzf guacamole-server-$VER.tar.gz
 cd guacamole-server-$VER
 
 # Run "configure" script to check if everything is good
-./configure --with-init-dir=/etc/init.d | tee guacamole_server.log
+./configure --with-init-dir=/etc/init.d --enable-allow-freerdp-snapshots | tee guacamole_server.log
 
 # Compile and install Guacamole Server
 make
