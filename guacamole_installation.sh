@@ -2,17 +2,21 @@
 apt update
 
 #Install Guacamole on Debian 10
-apt install -y build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev libpulse-dev
+apt install -y build-essential libcairo2-dev libturbojpeg libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev libpulse-dev
 
 #Install FreeRDP libraries enable support for RDP via Guacamole
 echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/backports.list
 
 apt update
-apt install freerdp2-dev/buster-backports
+apt-get install freerdp2-dev
+
+apt update
+
+
 
 # Install a specifiy version of Guacamole
 VER=1.3.0
-wget https://downloads.apache.org/guacamole/$VER/source/guacamole-server-$VER.targz
+wget https://downloads.apache.org/guacamole/$VER/source/guacamole-server-$VER.tar.gz
 tar xzf guacamole-server-$VER.tar.gz
 cd guacamole-server-$VER
 
@@ -65,7 +69,7 @@ ln -s /etc/guacamole /usr/share/tomcat9/.guacamole
 #echo -n "Ilyane93*/" | openssl md5
 
 
-printf "<user-mapping>
+echo "<user-mapping>
         
     <!-- Per-user authentication and config information -->
 
