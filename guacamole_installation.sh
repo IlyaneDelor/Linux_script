@@ -1,4 +1,5 @@
 #Update 
+#Update 
 apt update
 apt install make 
 
@@ -43,12 +44,17 @@ systemctl restart guacd
 mkdir /etc/guacamole/{extensions,lib}
 echo "GUACAMOLE_HOME=/etc/guacamole"  /etc/default/tomcat9
 apt install mariadb-server mariadb-client
-mysql
-CREATE DATABASE guacamole_db;
-CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'P@$sW0rd';
-GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
-FLUSH PRIVILEGES;
-quit;
+wget https://raw.githubusercontent.com/IlyaneDelor/Linux_script/main/bdd_guac.sql
+
+mysql -h "localhost" -u "root" < bdd_guac.sql
+
+~#mysql
+
+#CREATE DATABASE guacamole_db;
+#CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'P@$sW0rd';
+#GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
+#FLUSH PRIVILEGES;
+#quit;
 
 wget http://apache.mirror.digionline.de/guacamole/1.3.0/binary/guacamole-auth-jdbc-1.3.0.tar.gz
 
@@ -64,7 +70,6 @@ cp mysql-connector-java-8.0.13/mysql-connector-java-8.0.13.jar /etc/guacamole/li
 echo "# Hostname and Guacamole server port
 guacd-hostname: localhost
 guacd-port: 4822
-
 # MySQL properties
 mysql-hostname: localhost
 mysql-port: 3306
@@ -79,6 +84,22 @@ systemctl restart tomcat9
 
 
 systemctl restart guacd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
