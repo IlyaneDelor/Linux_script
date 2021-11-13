@@ -66,7 +66,7 @@ echo "user-mapping: /etc/guacamole/user-mapping.xml" >> /etc/guacamole/guacamole
 echo "auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider" >> /etc/guacamole/guacamole.properties
 ln -s /etc/guacamole /usr/share/tomcat9/.guacamole
 
-#echo -n "Ilyane93*/" | openssl md5
+echo -n "Ilyane93" | openssl md5
 
 
 echo "<user-mapping>
@@ -77,8 +77,8 @@ echo "<user-mapping>
          guacadmin user and its md5 hashed password below is used to 
              login to Guacamole Web UI-->
     <authorize 
-            username="guacadmin"
-            password="8d973ed89f465ec5dcd2caa7c1365f20"
+            username="Ilyane"
+            password="014662440a27ecc70aee5fefd92f05ff"
             encoding="md5">
 
         <!-- First authorized Remote connection -->
@@ -94,6 +94,7 @@ echo "<user-mapping>
             <param name="hostname">192.168.56.103</param>
             <param name="port">3389</param>
             <param name="username">Ilyane</param>
+            <param name="password">Ilyane93</param>
             <param name="ignore-cert">true</param>
         </connection>
 
@@ -105,8 +106,6 @@ echo "<user-mapping>
 #Restart Tomcat 
 
 systemctl restart tomcat9 guacd
-
-
 
 
 
