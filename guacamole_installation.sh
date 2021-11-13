@@ -27,7 +27,7 @@ ystemctl enable guacd
 
 systemctl start guacd
 
-systemctl status guacd
+#éésystemctl status guacd
 
 apt install tomcat9 tomcat9-admin tomcat9-common tomcat9-user -y
 
@@ -48,13 +48,7 @@ wget https://raw.githubusercontent.com/IlyaneDelor/Linux_script/main/bdd_guac.sq
 
 mysql -h "localhost" -u "root" < bdd_guac.sql
 
-~#mysql
 
-#CREATE DATABASE guacamole_db;
-#CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'P@$sW0rd';
-#GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
-#FLUSH PRIVILEGES;
-#quit;
 
 wget http://apache.mirror.digionline.de/guacamole/1.3.0/binary/guacamole-auth-jdbc-1.3.0.tar.gz
 
