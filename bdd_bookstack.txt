@@ -1,0 +1,138 @@
+```shell
+#!/bin/bash
+#
+# Nom		:
+# Description	:
+# Param 1	:
+# Param 2	:
+# Param 3	:
+# Param 4	:
+#
+# Ex) 		:	
+# Auteur	: Teddy JEAN-FRANCOIS
+# Email	: jfrancoisteddy@gmail.com
+# 
+#
+#
+#
+#
+#
+
+# Install default packages
+apt update
+apt install -y sudo vim rsync screen mlocate htop net-tools git gnupg2 mc psmisc lynx curl git pigz pixz zip ncdu iptraf iotop dstat gdisk mc cifs-utils ntfs-3g sshfs gdisk lshw inxi figlet screenfetch tree tmux nginx php-fpm mariadb-server git composer php-mysql php-xml php-mbstring php-tokenizer php-curl php-gd -y | tee post_installation.log
+
+# Custom aliases
+echo "alias mv='mv -iv'" >> .bashrc
+echo "alias cp='cp -iv'" >> .bashrc
+echo "alias df='df -hT --total -x devtmpfs -x tmpfs'" >> .bashrc
+echo "alias rm='rm -iv --preserve-root'" >> .bashrc
+echo "alias chmod='chmod -v --preserve-root'" >> .bashrc
+echo "alias chown='chown -v --preserve-root'" >> .bashrc
+echo "alias chgrp='chgrp -v --preserve-root'" >> .bashrc
+echo "alias ll='ls -la'" >> .bashrc
+# Custom prompt
+echo "PS1='\[\e[0;32m\]\u\[\e[0m\]@\[\e[0;38;5;21m\]\h \[\e[0;93m\]\w \[\e[0m\]\\n\[\e[0m\]\$ \[\e[0m\]'" >> .bashrc
+
+# Set the bashrc
+yes | cp .bashrc /etc/skel/.bashrc 
+mkdir /etc/skel/.ssh
+cd /etc/skel/.ssh
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJt6S6fmTmkEJDoyQTptUkEBT8xssZf+TCjgLg2/wXu teddy@TEDDY" >> /etc/skel/.ssh
+
+chmod -v 640 /etc/ssh/sshd_config
+chmod -v 640 /etc/ssh/ssh_config
+
+source .bashrc
+
+# Remove the motd and issue and replacing it with mine
+yes | rm /etc/motd
+cd /etc
+echo "Connection succed" >> /etc/motd
+
+# Go back to the root directory
+cd
+
+#Install Cheat
+wget https://github.com/cheat/cheat/releases/download/4.2.2/cheat-linux-amd64.gz
+gunzip cheat-linux-amd64.gz
+chmod +x cheat-linux-amd64
+echo y | mv -v cheat-linux-amd64 /usr/local/bin/cheat
+yes | cheat
+
+#Install Bookstack
+git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch
+mv BookStack /var/www/bookstack
+cd /var/www
+chown -R www-data:www-data bookstack
+cd bookstack
+
+composer install --no-dev
+
+cd /etc/nginx/sites-available
+PHPV=$(php -v | head -1 | cut -c5-7)
+[ ! -f /etc/nginx/sites-available/bookstack.conf ] && wget http://ftp.lutenruto.tk/bookstack.conf
+[ ! -L /etc/nginx/sites-enabled/bookstack.conf ] && ln -s /etc/nginx/sites-available/bookstack.conf /etc/nginx/sites-enabled/bookstack.conf
+
+cd /var/www/bookstack
+
+[ ! -f /var/www/bookstack/.env ] && wget http://ftp.lutenruto.tk/env
+mv env .env
+
+wget http://ftp.lutenruto.tk/script.sql
+mysql -h "localhost" -u "root" < script.sql
+rm script.sql
+echo y | php artisan key:generate
+echo y | php artisan migrate
+
+HOSTEXISTS=$(cat /etc/hosts | grep -o -i wiki.esgi.local | wc -l)
+ip=$(hostname -I)
+[ "$HOSTEXISTS" -eq "0" ] && echo "$ip wiki.esgi.local" >> /etc/hosts
+systemctl reload nginx
+
+# Updating mlocate database
+updatedb
+
+# Creating the new superuser
+sudo useradd -m davy --shell /bin/bash
+# without prompt
+echo -e -n "root\nroot" | passwd P@ssword
+# with prompt
+# sudo passwd davy
+sudo usermod -aG sudo davy
+sudo usermod -u 10000 davy
+sudo groupmod -g 10000 davy
+sudo usermod -aG sudo esgi
+
+#Secure Grub
+cd /etc/grub.d
+
+cd 
+yes | cp .bashrc /home/esgi/.bashrc
+
+HASH=$(echo -e -n "root\nroot" |grub-mkpasswd-pbkdf2 |grep hachage|cut -d" " -f9)
+
+echo "cat << EOF" >> /etc/grub.d/00_header
+echo "set superusers='davy'" >> /etc/grub.d/00_header
+echo "password_pbkdf2 davy '$HASH'" >> /etc/grub.d/00_header
+echo "EOF" >> /etc/grub.d/00_header
+
+sudo update-grub
+
+#Extend lv_home +2G
+sudo lvextend -L +2G -r /dev/VGCRYPT/lv_home
+
+SWAPEXISTS=$(lsblk -f | grep lv_swap | wc -l)
+if [ "$SWAPEXISTS" -eq "0" ]
+then
+    sudo lvcreate -n lv_swap -L 500m VGCRYPT
+    sudo mkswap /dev/VGCRYPT/lv_swap
+    echo "/dev/VGCRYPT/lv_swap swap swap defaults 0 0" |sudo tee -a /etc/fstab
+    sudo swapon -v /dev/VGCRYPT/lv_swap
+fi
+
+# Disable root account
+sudo usermod -s /usr/sbin/nologin root
+
+sudo reboot
+```
