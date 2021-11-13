@@ -75,7 +75,7 @@ mysql-hostname: localhost
 mysql-port: 3306
 mysql-database: guacamole_db
 mysql-username: guacamole_user
-mysql-password: P@$sW0rd 
+mysql-password: password
 " >> /etc/guacamole/guacamole.properties
 
 ln -s /etc/guacamole /usr/share/tomcat9/.guacamole
