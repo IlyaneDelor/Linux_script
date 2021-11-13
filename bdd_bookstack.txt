@@ -1,4 +1,4 @@
-```shell
+
 #!/bin/bash
 #
 # Nom		:
@@ -135,4 +135,3 @@ fi
 sudo usermod -s /usr/sbin/nologin root
 
 sudo reboot
-```
