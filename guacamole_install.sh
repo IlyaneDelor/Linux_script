@@ -1,9 +1,14 @@
-apt install make -y
+apt update
+apt install make 
 
 apt install -y build-essential libcairo2-dev libturbojpeg0 libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev libpulse-dev
 wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz
-wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz
+tar xzf guacamole-server-1.3.0.tar.gz
+
+
 cd guacamole-server-1.3.0/
+
+
 ./configure --with-init-dir=/etc/init.d
 make
 make install
