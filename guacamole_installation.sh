@@ -77,8 +77,8 @@ echo "<user-mapping>
          guacadmin user and its md5 hashed password below is used to 
              login to Guacamole Web UI-->
     <authorize 
-            username="Ilyane"
-            password="014662440a27ecc70aee5fefd92f05ff"
+            username="guacadmin"
+            password="5f4dcc3b5aa765d61d8327deb882cf99"
             encoding="md5">
 
         <!-- First authorized Remote connection -->
@@ -93,8 +93,7 @@ echo "<user-mapping>
             <protocol>rdp</protocol>
             <param name="hostname">192.168.56.103</param>
             <param name="port">3389</param>
-            <param name="username">Ilyane</param>
-            <param name="password">Ilyane93</param>
+            <param name="username">koromicha</param>
             <param name="ignore-cert">true</param>
         </connection>
 
