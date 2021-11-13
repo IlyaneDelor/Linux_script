@@ -7,17 +7,25 @@ cd guacamole-server-1.3.0/
 ./configure --with-init-dir=/etc/init.d
 make
 make install
+
 ldconfig
+
 ystemctl enable guacd
+
 systemctl start guacd
+
 systemctl status guacd
+
 apt install tomcat9 tomcat9-admin tomcat9-common tomcat9-user -y
+
 systemctl status tomcat9 
+
 mkdir /etc/guacamole
-wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -O /etc/guacamole/guacamole.war
-
-
+VER=1.3.0
+wget https://downloads.apache.org/guacamole/$VER/binary/guacamole-$VER.war -O /etc/guacamole/guacamole.war
 ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
+
+
 systemctl restart tomcat9
 systemctl restart guacd
 mkdir /etc/guacamole/{extensions,lib}
