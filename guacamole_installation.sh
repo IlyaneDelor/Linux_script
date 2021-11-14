@@ -26,7 +26,7 @@ ldconfig
 systemctl enable guacd
 
 systemctl start guacd
-systemctl status guacd
+#systemctl status guacd
 
 apt install tomcat9 tomcat9-admin tomcat9-common tomcat9-user -y
 
@@ -43,7 +43,7 @@ ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
 systemctl start tomcat
 systemctl enable tomcat
 systemctl restart guacd
-systemctl status tomcat
+#systemctl status tomcat
 
 
 
@@ -60,7 +60,9 @@ ufw reload
 echo '<user-mapping>
     <authorize 
             username="guacadmin"
-            password="guacadmin">
+            password="5cbd438413e8e3ca0e14e200fde621a9"
+            encoding="md5"
+            >
 
         <connection name="Ubuntu20.04-Focal-Fossa">
             <protocol>ssh</protocol>
