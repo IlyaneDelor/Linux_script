@@ -23,15 +23,16 @@ make install
 
 ldconfig
 
-ystemctl enable guacd
+systemctl enable guacd
 
 systemctl start guacd
-
-#éésystemctl status guacd
+systemctl status guacd
 
 apt install tomcat9 tomcat9-admin tomcat9-common tomcat9-user -y
 
-systemctl status tomcat9 
+
+wget https://raw.githubusercontent.com/IlyaneDelor/Linux_script/main/bdd_guac.sql
+
 
 mkdir /etc/guacamole
 VER=1.3.0
@@ -39,15 +40,41 @@ wget https://downloads.apache.org/guacamole/$VER/binary/guacamole-$VER.war -O /e
 ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
 
 
-systemctl restart tomcat9
+systemctl start tomcat
+systemctl enable tomcat
 systemctl restart guacd
+systemctl status tomcat
+
+
+
 mkdir /etc/guacamole/{extensions,lib}
 echo "GUACAMOLE_HOME=/etc/guacamole"  /etc/default/tomcat9
 apt install mariadb-server mariadb-client
-wget https://raw.githubusercontent.com/IlyaneDelor/Linux_script/main/bdd_guac.sql
 
 mysql -h "localhost" -u "root" < bdd_guac.sql
 
+ufw allow 8080/tcp
+ufw reload
+
+
+echo "<user-mapping>
+    <authorize 
+            username="guacadmin"
+            password="guacadmin">
+
+        <connection name="Ubuntu20.04-Focal-Fossa">
+            <protocol>ssh</protocol>
+            <param name="hostname">192.168.1.17</param>
+            <param name="port">22</param>
+            <param name="username">root</param>
+        </connection>
+        <connection name="Windows Server">
+            <protocol>rdp</protocol>
+            <param name="hostname">173.82.187.22</param>
+            <param name="port">3389</param>
+        </connection>
+    </authorize>
+</user-mapping>" >> /etc/guacamole/user-mapping.xml
 
 
 wget http://apache.mirror.digionline.de/guacamole/1.3.0/binary/guacamole-auth-jdbc-1.3.0.tar.gz
