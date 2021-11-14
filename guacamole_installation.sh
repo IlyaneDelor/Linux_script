@@ -57,7 +57,7 @@ ufw allow 8080/tcp
 ufw reload
 
 
-echo "<user-mapping>
+echo '<user-mapping>
     <authorize 
             username="guacadmin"
             password="guacadmin">
@@ -74,7 +74,7 @@ echo "<user-mapping>
             <param name="port">3389</param>
         </connection>
     </authorize>
-</user-mapping>" >> /etc/guacamole/user-mapping.xml
+</user-mapping>' >> /etc/guacamole/user-mapping.xml
 
 
 wget http://apache.mirror.digionline.de/guacamole/1.3.0/binary/guacamole-auth-jdbc-1.3.0.tar.gz
